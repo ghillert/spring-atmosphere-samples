@@ -4,3 +4,4 @@ log.roo
 .classpath
 .settings
 .springBeans
+.DS_Store
