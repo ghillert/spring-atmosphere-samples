@@ -9,11 +9,14 @@
     <version>1.0.0-BUILD-SNAPSHOT</version>
     <properties>
         <java-version>1.6</java-version>
-        <org.springframework-version>3.0.4.RELEASE</org.springframework-version>
+        <org.springframework-version>3.1.0.M2</org.springframework-version>
         <org.springframework.roo-version>1.0.2.RELEASE</org.springframework.roo-version>
         <org.aspectj-version>1.6.9</org.aspectj-version>
         <org.slf4j-version>1.5.10</org.slf4j-version>
+        <spring-social.version>1.0.0.RC1</spring-social.version>
+        <spring-social-twitter.version>1.0.0.RC1</spring-social-twitter.version>
     </properties>
+
     <dependencies>
         <!-- Spring -->
         <dependency>
@@ -129,6 +132,24 @@
           <groupId>org.atmosphere</groupId>
           <artifactId>atmosphere-runtime</artifactId>
           <version>0.7.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.social</groupId>
+            <artifactId>spring-social-core</artifactId>
+            <version>${spring-social.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.social</groupId>
+            <artifactId>spring-social-web</artifactId>
+            <version>${spring-social.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.social</groupId>
+            <artifactId>spring-social-twitter</artifactId>
+            <version>${spring-social-twitter.version}</version>
         </dependency>
 
     </dependencies>
