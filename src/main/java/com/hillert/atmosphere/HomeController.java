@@ -64,7 +64,7 @@ public class HomeController {
             public String call() throws Exception {
 
                 final TwitterTemplate twitterTemplate = new TwitterTemplate();
-                final SearchResults results = twitterTemplate.searchOperations().search("world", 1, 10, sinceId, 0);
+                final SearchResults results = twitterTemplate.searchOperations().search("world", 1, 5, sinceId, 0);
 
                logger.info("sinceId: " + sinceId + "; maxId: " + results.getMaxId());
 

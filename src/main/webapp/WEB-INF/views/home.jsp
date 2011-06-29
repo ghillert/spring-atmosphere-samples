@@ -28,6 +28,9 @@
                 <h1 class="loud">
                     Welcome to Spring Web MVC - Atmosphere Sample
                 </h1>
+                <h4>
+                    Code: <a href="https://github.com/ghillert/atmosphere-spring-web-mvc">https://github.com/ghillert/atmosphere-spring-web-mvc</a>
+                </h4>
             </div>
             <div id="content" class="prepend-1 span-17 prepend-top last">
                 <ul id="twitterMessages">
