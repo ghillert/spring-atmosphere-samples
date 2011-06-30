@@ -47,7 +47,7 @@ public class HomeController {
     @ResponseBody
     public void websockets(final AtmosphereResource<HttpServletRequest,HttpServletResponse> event) {
 
-        final HttpServletRequest req = event.getRequest();
+        final HttpServletRequest  req = event.getRequest();
         final HttpServletResponse res = event.getResponse();
 
         final ObjectMapper mapper = new ObjectMapper();
