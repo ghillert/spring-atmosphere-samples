@@ -12,7 +12,7 @@
     <!-- Enables the Spring MVC @Controller programming model -->
     <mvc:annotation-driven>
         <mvc:argument-resolvers>
-            <beans:bean class="com.hillert.atmosphere.AtmosphereResourceArgumentResolver" />
+            <beans:bean class="org.springframework.mvc.samples.asynchttp.AtmosphereResourceArgumentResolver" />
         </mvc:argument-resolvers>
     </mvc:annotation-driven>
 

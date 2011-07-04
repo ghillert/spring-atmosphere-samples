@@ -2,17 +2,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.hillert</groupId>
-    <artifactId>atmosphere-spring-web-mvc</artifactId>
-    <name>atmosphere-spring-web-mvc</name>
+    <groupId>org.springframework.mvc.samples</groupId>
+    <artifactId>asynchttp-example-spring-mvc</artifactId>
+    <name>asynchttp-example-spring-mvc</name>
     <packaging>war</packaging>
-    <version>1.0.0-BUILD-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
     <properties>
         <java-version>1.6</java-version>
         <org.springframework-version>3.1.0.M2</org.springframework-version>
         <org.springframework.roo-version>1.0.2.RELEASE</org.springframework.roo-version>
         <org.aspectj-version>1.6.9</org.aspectj-version>
-        <org.slf4j-version>1.5.10</org.slf4j-version>
+        <org.slf4j-version>1.6.1</org.slf4j-version>
         <spring-social.version>1.0.0.RC1</spring-social.version>
         <spring-social-twitter.version>1.0.0.RC1</spring-social-twitter.version>
     </properties>
@@ -36,22 +36,14 @@
             <artifactId>spring-webmvc</artifactId>
             <version>${org.springframework-version}</version>
         </dependency>
-        <!-- Roo dependencies -->
-        <dependency>
-            <groupId>org.springframework.roo</groupId>
-            <artifactId>org.springframework.roo.annotations</artifactId>
-            <version>${org.springframework.roo-version}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- AspectJ -->
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjrt</artifactId>
-            <version>${org.aspectj-version}</version>
-        </dependency>
 
         <!-- Logging -->
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>0.9.28</version>
+        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -59,39 +51,13 @@
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
-            <artifactId>jcl-over-slf4j</artifactId>
+            <artifactId>log4j-over-slf4j</artifactId>
             <version>${org.slf4j-version}</version>
-            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
+            <artifactId>jcl-over-slf4j</artifactId>
             <version>${org.slf4j-version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.15</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>javax.mail</groupId>
-                    <artifactId>mail</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>javax.jms</groupId>
-                    <artifactId>jms</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.sun.jdmk</groupId>
-                    <artifactId>jmxtools</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.sun.jmx</groupId>
-                    <artifactId>jmxri</artifactId>
-                </exclusion>
-            </exclusions>
-            <scope>runtime</scope>
         </dependency>
 
         <!-- @Inject -->
@@ -102,6 +68,7 @@
         </dependency>
 
         <!-- Servlet -->
+        
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
@@ -151,9 +118,14 @@
             <artifactId>spring-social-twitter</artifactId>
             <version>${spring-social-twitter.version}</version>
         </dependency>
-
     </dependencies>
+    
     <repositories>
+        <repository>
+            <id>repository.springframework.maven.release</id>
+            <name>Spring Framework Maven Release Repository</name>
+            <url>http://maven.springframework.org/release</url>
+        </repository>
         <!-- For testing against latest Spring snapshots -->
         <repository>
             <id>org.springframework.maven.snapshot</id>
@@ -170,6 +142,8 @@
             <snapshots><enabled>false</enabled></snapshots>
         </repository>
     </repositories>
+    
+    <url>http://www.springsource.org/</url>
     <build>
         <plugins>
             <plugin>
@@ -178,13 +152,6 @@
                 <configuration>
                     <source>${java-version}</source>
                     <target>${java-version}</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <configuration>
-                    <warName>atmosphere-spring-web-mvc</warName>
                 </configuration>
             </plugin>
             <plugin>
@@ -199,48 +166,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>aspectj-maven-plugin</artifactId>
-                <!-- Have to use version 1.2 since version 1.3 does not appear to work with ITDs -->
-                <version>1.2</version>
-                <dependencies>
-                    <!-- You must use Maven 2.0.9 or above or these are ignored (see MNG-2972) -->
-                    <dependency>
-                        <groupId>org.aspectj</groupId>
-                        <artifactId>aspectjrt</artifactId>
-                        <version>${org.aspectj-version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.aspectj</groupId>
-                        <artifactId>aspectjtools</artifactId>
-                        <version>${org.aspectj-version}</version>
-                    </dependency>
-                </dependencies>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>compile</goal>
-                            <goal>test-compile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <outxml>true</outxml>
-                    <source>${java-version}</source>
-                    <target>${java-version}</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <junitArtifactName>junit:junit</junitArtifactName>
-                    <excludes>
-                        <exclude>**/*_Roo_*</exclude>
-                    </excludes>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>

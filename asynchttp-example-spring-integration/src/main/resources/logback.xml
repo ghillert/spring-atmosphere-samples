@@ -17,7 +17,7 @@
         <level value="INFO" />
     </logger>
     <logger name="org.atmosphere">
-        <level value="DEBUG" />
+        <level value="INFO" />
     </logger>
 
 

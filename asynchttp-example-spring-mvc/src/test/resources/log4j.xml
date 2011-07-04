@@ -11,7 +11,7 @@
 	</appender>
 	
 	<!-- Application Loggers -->
-	<logger name="com.hillert.atmosphere">
+	<logger name="org.springframework.mvc.samples.asynchttp">
 		<level value="info" />
 	</logger>
 	
