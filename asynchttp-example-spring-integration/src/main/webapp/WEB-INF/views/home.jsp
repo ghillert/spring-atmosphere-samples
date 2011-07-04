@@ -202,7 +202,7 @@
                 }
 
                 /* transport can be : long-polling, streaming or websocket */
-                $.atmosphere.subscribe("<c:url value='/websockets'/>",
+                $.atmosphere.subscribe("${fn:replace(r.requestURL, r.requestURI, '')}${r.contextPath}/websockets",
                         !callbackAdded? callback : null,
                 $.atmosphere.request = {transport: 'websocket'});
                 connectedEndpoint = $.atmosphere.response;

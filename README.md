@@ -7,7 +7,7 @@ with Spring Integration as well as Spring MVC
 Examples
 -------
 
-* asynchttp-example-spring-integration
+* asynchttp-example-spring-integration (http://asynchttp-example-spring-integration.cloudfoundry.com/)
 * asynchttp-example-spring-mvc
 
 Further Resources
