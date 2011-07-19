@@ -13,22 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.integration.sts;
-
-import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+package org.springframework.integration.samples.asynchttp.model;
 
 /**
+ * 
+ * @author Gunnar Hillert
+ *
  */
-public class SpringIntegrationTest {
+public class BaseMessage {
 
-    @Test
-    public void testSpringIntegrationContextStartup() throws Exception{
+	private String type;
 
-        final ApplicationContext context = new ClassPathXmlApplicationContext("/META-INF/spring/integration/spring-integration-context.xml", SpringIntegrationTest.class);
-        Thread.sleep(5000);
+	public BaseMessage(String type) {
+		super();
+		this.type = type;
+	}
 
-    }
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
 
 }

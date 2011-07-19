@@ -1,22 +1,43 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:context="http://www.springframework.org/schema/context"
-    xmlns:si="http://www.springframework.org/schema/integration"
-    xmlns:mvc="http://www.springframework.org/schema/mvc"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:util="http://www.springframework.org/schema/util"
-    xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
-        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
-        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-        http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd">
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:int-http="http://www.springframework.org/schema/integration/http"
+	xmlns:int-asynchttp="http://www.springframework.org/schema/integration/asynchttp"
+	xsi:schemaLocation="http://www.springframework.org/schema/integration/http http://www.springframework.org/schema/integration/http/spring-integration-http.xsd
+		http://www.springframework.org/schema/integration/asynchttp http://www.springframework.org/schema/integration/asynchttp/spring-integration-asynchttp.xsd
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-    <bean name="/websockets" class="org.springframework.integration.comet.AsynchHttpRequestHandlingMessagingGateway">
-        <property name="messageChannel" ref="twitterChannel" />
-        <property name="useExclusivielyDefaultAcceptContentType" value="true" />
+   <bean class="org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter"/>
+   
+<!--     <bean id="asyncHttpRequestHandlingMessagingGateway" name="/websockets" class="org.springframework.integration.asynchttp.inbound.AsyncHttpRequestHandlingMessagingGateway">
+        <property name="requestChannel" ref="internalTweetChannel" />
+        <property name="broadcaster" ref="broadcaster" />
+        <property name="requestPayloadType" value=""/>
     </bean>
+ -->
+     <int-asynchttp:inbound-channel-adapter channel="internalTweetChannel" name="/websockets" 
+                                           request-payload-type="org.springframework.integration.samples.asynchttp.model.TwitterMessage"
+                                           broadcaster-manager="broadcasterManager"
+                                           custom-implementation-class="org.springframework.integration.samples.asynchttp.CustomAsyncHttpRequestHandlingMessagingGateway"/>
 
-    <bean class="org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter"/>
-
+<!--      <int-asynchttp:inbound-channel-adapter channel="internalTweetChannel" name="/websockets" 
+                                           broadcaster-manager="broadcasterManager"
+                                           custom-implementation-class="org.springframework.integration.samples.asynchttp.CustomAsyncHttpRequestHandlingMessagingGateway"/> -->
+ 
+    <bean id="jsonMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
+                       
+    <int-asynchttp:outbound-channel-adapter broadcaster-manager="broadcasterManager" channel="twitterChannel" 
+                              message-threshold="0" extract-payload="true" 
+                              message-converter="jsonMessageConverter">
+                              
+                              </int-asynchttp:outbound-channel-adapter>
 </beans>

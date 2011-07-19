@@ -13,26 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.hillert.websockets.integration;
+package org.springframework.integration.samples.asynchttp.model;
 
-import org.springframework.integration.twitter.core.Tweet;
-import org.springframework.util.StringUtils;
-import org.springframework.web.util.HtmlUtils;
 
-import com.hillert.websockets.model.TwitterMessage;
+/**
+ * 
+ */
+public class TimeMessage extends BaseMessage {
 
-public class TweetTransformer {
+    private String time;
 
-    public TwitterMessage transform(Tweet tweet) {
-
-        final TwitterMessage twitterMessage = new TwitterMessage(
-                tweet.getId(),
-                tweet.getCreatedAt(),
-                tweet.getText(),
-                tweet.getFromUser(),
-                tweet.getProfileImageUrl());
-
-        return twitterMessage;
+    /** Default constructor. */
+    
+    public TimeMessage() {
+        super(TimeMessage.class.getSimpleName());
     }
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
 
 }

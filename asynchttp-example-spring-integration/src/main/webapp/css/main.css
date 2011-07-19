@@ -1,10 +1,39 @@
+body {
+	background-color: #000000;
+}
+
 .container {
-    border: 1px solid #728C16;
     margin-top: 1.5em;
+    margin-bottom: 1.5em;
 }
 
 #header {
+    background-color: #EEEEEE;    
+    -moz-border-radius-topleft: 15px;
+    -moz-border-radius-topright: 15px;
+    
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+#content {
+	background-color: #FFFFFF;
+	border-top: 1px solid #728C16;
+    border-bottom: 1px solid #728C16;
+}
+
+#footer {
     background-color: #EEEEEE;
+    
+    -moz-border-radius-bottomleft: 15px;
+    -moz-border-radius-bottomright: 15px;
+    
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    text-align: center;
+    
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
 }
 
 .twitterMessages {
@@ -25,11 +54,67 @@
 
 }
 
-#twitterMessages li img {
+#img-wrapper {
     vertical-align: middle;
     float: left;
     margin-right: 10px;
+    width: 48px;
+    height: 48px;
+    display: block;
+    
+    background-repeat: no-repeat;
+    background-position: center;
+    
+    border: 0px solid #eeeeee;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    
+    -webkit-box-shadow: 2px 2px 2px #888888;
+    box-shadow: #888888 2px 2px 2px;
+    
 }
+#twitterMessages li p img {
+    opacity: 0;
+}
+
+#wallclock #header {
+	 color: #C2CD23;
+	 font-weight: bold;
+     border: 1px solid #417C2C;
+     border-bottom-width: 0;
+     background-color: #417C2C;
+    -moz-border-radius-topleft: 10px;
+    -moz-border-radius-topright: 10px;
+    
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    
+     padding: 0.5em 1em 0.5em 1em;
+}
+
+#wallclock #timebox {
+     border: 1px solid #417C2C;
+
+	-moz-border-radius-bottomleft: 10px;
+	-moz-border-radius-bottomright: 10px;
+	
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+     padding: 1em;
+}
+
+#holder {
+    
+    border: 1px solid #C2CD23;
+    
+    -moz-border-radius-topleft: 10px;
+    -moz-border-radius-topright: 10px;
+    
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    
+}
+
 
 #chartableStats td {
 

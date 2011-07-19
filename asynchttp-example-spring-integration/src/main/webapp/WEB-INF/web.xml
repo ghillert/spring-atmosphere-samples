@@ -8,8 +8,27 @@
     <param-value>classpath:META-INF/spring/integration/spring-integration-context.xml</param-value>
   </context-param>
   <listener>
-    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    <listener-class>org.springframework.integration.asynchttp.context.AsyncHttpContextLoaderListener</listener-class>
   </listener>
+  <filter>
+    <filter-name>encodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+        <param-name>encoding</param-name>
+        <param-value>UTF-8</param-value>
+    </init-param>
+    <init-param>
+        <param-name>forceEncoding</param-name>
+        <param-value>true</param-value>
+    </init-param>
+  </filter>
+
+ <filter-mapping>
+    <filter-name>encodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+ </filter-mapping>  
+  
+  
   <servlet>
     <servlet-name>appServlet</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -17,7 +36,7 @@
       <param-name>contextConfigLocation</param-name>
       <param-value>classpath:META-INF/spring/mvc/servlet-context.xml</param-value>
     </init-param>
-    <load-on-startup>1</load-on-startup>
+    <load-on-startup>2</load-on-startup>
   </servlet>
   <servlet>
     <servlet-name>asyncHttp</servlet-name>
@@ -28,7 +47,7 @@
     </init-param>
     <init-param>
       <param-name>org.atmosphere.cpr.broadcasterClass</param-name>
-      <param-value>org.atmosphere.cpr.DefaultBroadcaster</param-value>
+      <param-value>org.springframework.integration.asynchttp.broadcaster.MetricsCollectingBroadcaster</param-value>
     </init-param>
     <init-param>
       <param-name>org.atmosphere.cpr.broadcastFilterClasses</param-name>
@@ -36,7 +55,7 @@
     </init-param>
     <init-param>
       <param-name>org.atmosphere.cpr.CometSupport.maxInactiveActivity</param-name>
-      <param-value>30</param-value>
+      <param-value>10000</param-value>
     </init-param>
     <init-param>
       <param-name>org.atmosphere.useStream</param-name>
@@ -54,7 +73,11 @@
       <param-name>contextConfigLocation</param-name>
       <param-value>classpath:META-INF/spring/mvc/comet-config.xml</param-value>
     </init-param>
-    <load-on-startup>2</load-on-startup>
+    <init-param> 
+        <param-name>org.atmosphere.cpr.broadcasterCacheClass</param-name> 
+        <param-value>org.atmosphere.cache.SessionBroadcasterCache</param-value> 
+    </init-param>
+    <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet-mapping>
     <servlet-name>asyncHttp</servlet-name>

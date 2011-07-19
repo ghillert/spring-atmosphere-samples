@@ -13,26 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.hillert.websockets.integration;
+package org.springframework.integration.samples.asynchttp;
 
-import java.util.Date;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
+import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.hillert.websockets.model.TwitterMessage;
+/**
+ */
+public class SpringIntegrationTest {
 
-public class TweetGenerator {
+    @Test
+    public void testSpringIntegrationContextStartup() throws Exception{
 
-    AtomicLong counter = new AtomicLong();
+        final ApplicationContext context = new ClassPathXmlApplicationContext("/META-INF/spring/integration/spring-integration-context.xml", SpringIntegrationTest.class);
+        Thread.sleep(5000);
 
-    TwitterMessage getTwitterMessage() {
-        final TwitterMessage twitterMessage = new TwitterMessage(
-                counter.addAndGet(1),
-                new Date(),
-                "Message: " + counter.get(), "generator", "http://a1.twimg.com/profile_images/93471463/gh_90px_x_90px.jpg");
-        return twitterMessage;
     }
-
-
 
 }

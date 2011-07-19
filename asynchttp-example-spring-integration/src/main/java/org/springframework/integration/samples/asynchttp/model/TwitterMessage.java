@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.hillert.websockets.model;
+package org.springframework.integration.samples.asynchttp.model;
 
 import java.util.Date;
 
 /**
  * Represents some common Twitter related fields.
  */
-public class TwitterMessage {
+public class TwitterMessage extends BaseMessage {
 
     private Long id;
     private Date createdAt;
@@ -30,13 +30,13 @@ public class TwitterMessage {
 
     /** Default constructor. */
     public TwitterMessage() {
-        super();
+        super(TwitterMessage.class.getSimpleName());
     }
 
     /** Constructor to initialize all fields available. */
     public TwitterMessage(Long id, Date createdAt, String text, String fromUser,
             String profileImageUrl) {
-        super();
+        super(TwitterMessage.class.getSimpleName());
         this.id = id;
         this.createdAt = createdAt;
         this.text = text;
@@ -84,7 +84,7 @@ public class TwitterMessage {
         this.id = id;
     }
 
-    @Override
+	@Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;

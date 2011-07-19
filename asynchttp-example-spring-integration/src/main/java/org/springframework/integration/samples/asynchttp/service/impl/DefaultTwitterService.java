@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.hillert.websockets.service.impl;
+package org.springframework.integration.samples.asynchttp.service.impl;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -24,14 +24,16 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.integration.Message;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.core.MessagingTemplate;
+import org.springframework.integration.samples.asynchttp.model.TwitterMessage;
+import org.springframework.integration.samples.asynchttp.service.TwitterService;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
-import com.hillert.websockets.model.TwitterMessage;
-import com.hillert.websockets.service.TwitterService;
 
 /**
  * Implementation of the TwitterService interface.
+ * 
+ * @author Gunnar Hillert
  */
 @Service
 public class DefaultTwitterService implements TwitterService {
