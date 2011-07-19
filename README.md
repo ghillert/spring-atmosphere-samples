@@ -7,8 +7,8 @@ Atmosphere framework with Spring Integration as well as Spring MVC
 Examples
 -------
 
-* asynchttp-example-spring-integration (http://asynchttp-example-spring-integration.cloudfoundry.com/)
-* asynchttp-example-spring-mvc (http://asynchttp-example-spring-mvc.cloudfoundry.com/)   
+* asynchttp-example-spring-integration (http://asynchttp-spring-integration.cloudfoundry.com/)
+* asynchttp-example-spring-mvc (http://asynchttp-spring-mvc.cloudfoundry.com/)   
 
 Further Resources
 -------
