@@ -29,7 +29,7 @@
                     Welcome to Spring Web MVC - Atmosphere Sample
                 </h1>
                 <h4>
-                    Code: <a href="https://github.com/ghillert/atmosphere-spring-web-mvc">https://github.com/ghillert/atmosphere-spring-web-mvc</a>
+                    Code: <a href="https://github.com/ghillert/spring-asynchttp-examples">https://github.com/ghillert/spring-asynchttp-examples</a>
                 </h4>
             </div>
             <div id="content" class="prepend-1 span-17 prepend-top last">

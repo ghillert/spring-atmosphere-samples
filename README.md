@@ -1,14 +1,14 @@
 Spring AsyncHttp Examples 
 =============
 
-I have been working on creating examples showcasing integrating the Atmosphere framework 
-with Spring Integration as well as Spring MVC
+I have been working on creating examples show-casing integrating the 
+Atmosphere framework with Spring Integration as well as Spring MVC
 
 Examples
 -------
 
 * asynchttp-example-spring-integration (http://asynchttp-example-spring-integration.cloudfoundry.com/)
-* asynchttp-example-spring-mvc
+* asynchttp-example-spring-mvc (http://asynchttp-example-spring-mvc.cloudfoundry.com/)   
 
 Further Resources
 -------

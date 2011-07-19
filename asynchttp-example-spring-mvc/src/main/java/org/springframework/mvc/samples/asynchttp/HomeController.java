@@ -37,9 +37,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-
 /**
- * Handles requests for the application home page.
+ * Main controller. 
  */
 @Controller
 public class HomeController {
@@ -51,19 +50,16 @@ public class HomeController {
      */
     @RequestMapping(value="/", method=RequestMethod.GET)
     public String home() {
-        logger.info("Welcome home!");
         return "home";
     }
 
     /**
-     *
+     * Responsible for suspending the {@link HttpServletResponse} and executing 
+     * a broadcasts periodically.
      */
     @RequestMapping(value="/websockets", method=RequestMethod.GET)
     @ResponseBody
     public void websockets(final AtmosphereResource<HttpServletRequest,HttpServletResponse> event) {
-
-        final HttpServletRequest  req = event.getRequest();
-        final HttpServletResponse res = event.getResponse();
 
         final ObjectMapper mapper = new ObjectMapper();
 
@@ -79,13 +75,14 @@ public class HomeController {
             public String call() throws Exception {
 
                 final TwitterTemplate twitterTemplate = new TwitterTemplate();
-                final SearchResults results = twitterTemplate.searchOperations().search("world", 1, 5, sinceId, 0);
+                final String searchPhrase = "springintegration OR html5 OR vfabric OR #springframework OR springsource OR #java OR #eip OR infoq OR #jvm OR #scala OR #groovy OR cloudfoundry OR websockets";
+                final SearchResults results = twitterTemplate.searchOperations().search(searchPhrase, 1, 5, sinceId, 0);
 
                logger.info("sinceId: " + sinceId + "; maxId: " + results.getMaxId());
 
                 sinceId = results.getMaxId();
 
-                List<TwitterMessage> twitterMessages = new ArrayList<TwitterMessage>();
+                final List<TwitterMessage> twitterMessages = new ArrayList<TwitterMessage>();
 
                 for (Tweet tweet : results.getTweets()) {
                     twitterMessages.add(new TwitterMessage(tweet.getId(),
@@ -99,8 +96,6 @@ public class HomeController {
             }
 
         }, 10, TimeUnit.SECONDS);
-
-        //bc.delayBroadcast("Underlying Response now suspended");
 
     }
 
