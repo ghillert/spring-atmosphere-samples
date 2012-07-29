@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:int-http="http://www.springframework.org/schema/integration/http"
+	xmlns:int-asynchttp="http://www.springframework.org/schema/integration/asynchttp"
+	xsi:schemaLocation="http://www.springframework.org/schema/integration/http http://www.springframework.org/schema/integration/http/spring-integration-http.xsd
+		http://www.springframework.org/schema/integration/asynchttp file:///Users/ghillert/dev/git-ghillert/spring-integration-extensions/spring-integration-atmosphere/src/main/resources/config/spring-integration-asynchttp-2.2.xsd
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<bean class="org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter" />
+
+	<bean id="asyncHttpRequestHandlingMessagingGateway" name="/websockets"
+		class="org.springframework.integration.asynchttp.inbound.AsyncHttpRequestHandlingMessagingGateway">
+		<property name="requestChannel" ref="internalTweetChannel" />
+		<property name="broadcasterManager" ref="broadcasterManager" />
+		<property name="requestPayloadType" value="" />
+	</bean>
+
+</beans>

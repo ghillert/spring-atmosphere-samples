@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:int-twitter="http://www.springframework.org/schema/integration/twitter"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:int-event="http://www.springframework.org/schema/integration/event"
+	xmlns:int-asynchttp="http://www.springframework.org/schema/integration/asynchttp"
+	xsi:schemaLocation="http://www.springframework.org/schema/integration/ftp http://www.springframework.org/schema/integration/ftp/spring-integration-ftp.xsd
+		http://www.springframework.org/schema/integration/asynchttp FILE:///Users/ghillert/dev/git-ghillert/spring-integration-extensions/spring-integration-atmosphere/src/main/resources/config/spring-integration-asynchttp-2.2.xsd
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+		http://www.springframework.org/schema/integration/event http://www.springframework.org/schema/integration/event/spring-integration-event.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/integration/twitter http://www.springframework.org/schema/integration/twitter/spring-integration-twitter.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:component-scan base-package="org.springframework.integration.samples.asynchttp.service" />
+
+	<int:channel id="controlBusChannel" />
+	<int:control-bus id="controlBus" input-channel="controlBusChannel" />
+
+	<int-twitter:search-inbound-channel-adapter
+		id="twitter"
+		query="springintegration OR html5 OR vfabric OR #springframework OR springsource OR #java OR #eip OR infoq OR #jvm OR #scala OR #groovy OR cloudfoundry OR websockets"
+		auto-startup="false" channel="twitterInputChannel">
+		<int:poller fixed-rate="20000" max-messages-per-poll="1" />
+	</int-twitter:search-inbound-channel-adapter>
+
+	<int:channel id="twitterInputChannel">
+		<int:queue />
+		<int:interceptors>
+			<int:wire-tap channel="logger" />
+		</int:interceptors>
+	</int:channel>
+
+	<bean id="tweetTransformer"
+		class="org.springframework.integration.samples.asynchttp.TweetTransformer" />
+	<int:transformer input-channel="twitterInputChannel"
+		output-channel="twitterChannel" ref="tweetTransformer" method="transform" />
+
+
+	<!-- <bean id="tweetGenerator" class="com.hillert.websockets.integration.TweetGenerator"/> -->
+
+	<!-- <int:logging-channel-adapter id="logger" level="INFO" log-full-message="true"/> -->
+	<int:logging-channel-adapter id="logger"
+		level="INFO"
+		expression="'Id:' + payload.id + '; Date:' + payload.createdAt + '; FromUser: ' + payload.fromUser" />
+
+	<!-- See also: http://static.springsource.org/spring-integration/reference/htmlsingle/#channel
+		http://www.eaipatterns.com/MessageChannel.html -->
+	<int:channel id="twitterChannel">
+		<int:queue capacity="100" />
+		<int:interceptors>
+			<!-- <int:wire-tap channel="logger"/> -->
+		</int:interceptors>
+	</int:channel>
+
+	<int:poller fixed-rate="10000" max-messages-per-poll="10"
+		default="true" task-executor="pool" />
+
+	<task:executor id="pool" pool-size="10" queue-capacity="100"
+		keep-alive="120" />
+
+	<int:channel id="internalTweetChannel">
+		<int:queue />
+	</int:channel>
+
+	<int:transformer id="internalTweetTransformer"
+		input-channel="internalTweetChannel" output-channel="twitterChannel"
+		ref="tweetTransformer" method="prepareInternalTwitterMessage" />
+
+	<int-event:inbound-channel-adapter
+		channel="metricsChannel"
+		event-types="org.springframework.integration.asynchttp.AsyncHttpApplicationEvent" />
+	<int:channel id="metricsChannel"></int:channel>
+	<int:transformer input-channel="metricsChannel"
+		output-channel="twitterChannel" ref="tweetTransformer" method="transformEvent" />
+
+	<!-- <int:logging-channel-adapter id="metricsChannel" level="INFO" log-full-message="true"/> -->
+
+	<bean id="metricsListener"
+		class="org.springframework.integration.samples.asynchttp.BroadcastMetricsApplicationListener">
+	</bean>
+
+	<int:inbound-channel-adapter ref="timeService"
+		method="getCurrentTime" channel="timeChannel" auto-startup="false">
+		<int:poller fixed-rate="10000" />
+	</int:inbound-channel-adapter>
+
+	<int:channel id="timeChannel" />
+
+	<int:header-enricher input-channel="timeChannel"
+		output-channel="twitterChannel">
+		<int:header name="asynchttp_broadcasterName" value="timeBroadcaster" />
+	</int:header-enricher>
+
+	<bean id="broadcasterManager"
+		class="org.springframework.integration.asynchttp.BroadcasterManager">
+		<constructor-arg ref="broadcaster" />
+		<property name="customBroadcasters">
+			<set value-type="org.atmosphere.cpr.Broadcaster">
+				<ref local="timeBroadCaster" />
+			</set>
+		</property>
+	</bean>
+	<bean id="broadcaster"
+		class="org.springframework.integration.asynchttp.BroadcasterFactoryBean" />
+
+	<bean id="timeBroadCaster"
+		class="org.springframework.integration.asynchttp.BroadcasterFactoryBean">
+		<property name="broadcasterId" value="timeBroadcaster" />
+	</bean>
+
+	<int-asynchttp:outbound-channel-adapter
+		broadcaster-manager="broadcasterManager"
+		channel="twitterChannel" extract-payload="true">
+	</int-asynchttp:outbound-channel-adapter>
+</beans>
