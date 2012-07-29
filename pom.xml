@@ -7,10 +7,10 @@
     <name>spring-asynchttp-examples-parent</name>
     <packaging>pom</packaging>
 
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0.BUILD-SNAPSHOT</version>
 	<modules>
 		<module>spring-integration-atmosphere-sample</module>
-		<module>asynchttp-example-spring-mvc</module>
+		<module>spring-mvc-atmosphere-sample-</module>
 	</modules>
 
 </project>
