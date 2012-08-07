@@ -13,13 +13,19 @@
  *     See the License for the specific language governing permissions and
  *     limitations under the License.
  */
-package org.springframework.mvc.samples.asynchttp.model;
+package org.springframework.mvc.samples.atmosphere.model;
 
 import java.util.Date;
+
+import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 /**
  * Represents some common Twitter related fields.
  */
+@JsonTypeInfo(
+		use=JsonTypeInfo.Id.CLASS,
+		include=JsonTypeInfo.As.PROPERTY,
+		property="@class")
 public class TwitterMessage {
 
     private Long id;

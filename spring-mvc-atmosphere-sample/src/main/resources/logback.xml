@@ -16,8 +16,8 @@
     <logger name="org.springframework">
         <level value="INFO" />
     </logger>
-    <logger name="org.atmosphere">
-        <level value="INFO" />
+    <logger name="org.atmosphere.cpr">
+        <level value="DEBUG" />
     </logger>
 
 
