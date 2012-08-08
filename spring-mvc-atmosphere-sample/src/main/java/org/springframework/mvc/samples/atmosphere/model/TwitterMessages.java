@@ -31,8 +31,8 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
  * Wrapper containing a {@link Collection} of Twitter messages. Used for
  * proper serialization via Jaxb.
  *
- * @author SI-TEMPLATE-AUTHOR
- * @since  SI-TEMPLATE-VERSION
+ * @author Gunnar Hillert
+ * @since  1.0
  *
  */
 @XmlRootElement

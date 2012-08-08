@@ -21,6 +21,10 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 /**
  * Represents some common Twitter related fields.
+ *
+ * @author Gunnar Hillert
+ * @since  1.0
+ *
  */
 @JsonTypeInfo(
 		use=JsonTypeInfo.Id.CLASS,

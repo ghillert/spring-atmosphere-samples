@@ -46,8 +46,8 @@
 
 	<bean id="jaxbJacksonObjectMapper" class="org.springframework.mvc.samples.atmosphere.support.JaxbJacksonObjectMapper" />
 
-	<bean class="org.springframework.mvc.samples.atmosphere.service.TwitterService"/>
-
+<!-- 	<bean class="org.springframework.mvc.samples.atmosphere.service.TwitterService"/>
+ -->
 <task:executor id="executor" pool-size="5"/>
   <task:scheduler id="scheduler" pool-size="5"/>
   <task:annotation-driven scheduler="scheduler" executor="executor"/>

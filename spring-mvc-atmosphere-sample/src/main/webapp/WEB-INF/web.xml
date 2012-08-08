@@ -23,11 +23,6 @@
 			<param-value>org.springframework.web.servlet.DispatcherServlet</param-value>
 		</init-param>
 		<init-param>
-			<param-name>org.atmosphere.websocket.WebSocketProtocol</param-name>
-			<!-- <param-value>org.atmosphere.pubsub.config.protocol.DelegatingWebSocketProtocol</param-value> -->
-			<param-value>org.atmosphere.websocket.protocol.SimpleHttpProtocol</param-value>
-		</init-param>
-		<init-param>
 			<param-name>contextConfigLocation</param-name>
 			<param-value>classpath:META-INF/spring/mvc/servlet-context.xml</param-value>
 		</init-param>

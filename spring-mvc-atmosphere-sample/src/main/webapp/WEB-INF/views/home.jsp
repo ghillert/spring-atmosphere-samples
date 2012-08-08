@@ -66,7 +66,7 @@
 					</thead>
 					<tbody>
 						<tr>
-							<th scope="row" style="color: #1751A7"># of Callbacks</th>
+							<th scope="row" style="color: #1751A7"># of Messages</th>
 							<td id="numberOfCallbackInvocations">0</td>
 						</tr>
 						<tr>
@@ -117,13 +117,10 @@
 				var asyncHttpStatistics = {
 					transportType: 'N/A',
 					responseState: 'N/A',
-					numberOfCallbackInvocations: 0,
+					numberOfTotalMessages: 0,
 					numberOfTweets: 0,
 					numberOfErrors: 0
 				};
-
-				var connectedEndpoint;
-				var callbackAdded = false;
 
 				function refresh() {
 
@@ -131,13 +128,15 @@
 
 					$('#transportType').html(asyncHttpStatistics.transportType);
 					$('#responseState').html(asyncHttpStatistics.responseState);
-					$('#numberOfCallbackInvocations').html(asyncHttpStatistics.numberOfCallbackInvocations);
+					$('#numberOfCallbackInvocations').html(asyncHttpStatistics.numberOfTotalMessages);
 					$('#numberOfTweets').html(asyncHttpStatistics.numberOfTweets);
 					$('#numberOfErrors').html(asyncHttpStatistics.numberOfErrors);
 
 				}
 
 				function onMessage(response) {
+					asyncHttpStatistics.numberOfTotalMessages++;
+					refresh();
 					var message = response.responseBody;
 					var result;
 
@@ -212,60 +211,31 @@
 
 				}
 
-
 				function handleStatusMessage(data) {
 					console.log("Handling Status Message...");
 					$('#status').html(data.get('message'));
 				}
 
-
 				var socket = $.atmosphere;
 				var subSocket;
 				var transport = 'websocket';
-
 				var websocketUrl = "${fn:replace(r.requestURL, r.requestURI, '')}${r.contextPath}/websockets/";
-
- 				var transports = new Array();
-				transports[0] = "websocket";
-				transports[1] = "sse";
-				transports[2] = "jsonp";
-				transports[3] = "long-polling";
-				transports[4] = "streaming";
-				transports[5] = "ajax";
-
-				$.each(transports, function (index, transport) {
-					var request = new $.atmosphere.AtmosphereRequest();
-
-					request.url = websocketUrl;
-					request.contentType = "application/json";
-					request.transport = transport;
- 					request.headers = { "negotiating" : "true" };
-
-					request.onOpen = function(response) {
-						console.log('Atmosphere onOpen: ' + transport + ' supported: ' + (response.transport == transport));
-					};
-
-					request.onReconnect = function(request) {
-						request.close();
-					};
-
-					socket.subscribe(request);
-
-				});
 
 				var request = {
 					url: websocketUrl,
 					contentType : "application/json",
 					logLevel : 'debug',
-					shared : 'true',
+					//shared : 'true',
 					transport : transport ,
-					fallbackTransport: 'streaming',
-					reconnectInterval: 10000,
+					fallbackTransport: 'long-polling',
+					//reconnectInterval: 10000,
 					//callback: callback,
 					onMessage: onMessage,
 					onOpen: function(response) {
 						console.log('Atmosphere onOpen: Atmosphere connected using ' + response.transport);
 						transport = response.transport;
+						asyncHttpStatistics.transportType = response.transport;
+						refresh();
 				    },
 					onReconnect: function (request, response) {
 						console.log("Atmosphere onReconnect: Reconnecting");

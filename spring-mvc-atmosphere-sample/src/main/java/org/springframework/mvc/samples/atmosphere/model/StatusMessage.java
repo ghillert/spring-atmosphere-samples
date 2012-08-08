@@ -20,6 +20,8 @@ import java.util.Date;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 /**
+ * @author Gunnar Hillert
+ * @since  1.0
  *
  */
 @JsonTypeInfo(

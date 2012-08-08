@@ -16,20 +16,21 @@
 package org.springframework.mvc.samples.atmosphere;
 
 import java.util.concurrent.CountDownLatch;
-
 import javax.servlet.http.HttpServletRequest;
-
-import org.atmosphere.cpr.ApplicationConfig;
 import org.atmosphere.cpr.AtmosphereResource;
 import org.atmosphere.cpr.AtmosphereResourceEvent;
 import org.atmosphere.cpr.AtmosphereResourceEventListenerAdapter;
 import org.atmosphere.cpr.Broadcaster;
 import org.atmosphere.cpr.BroadcasterFactory;
-import org.atmosphere.cpr.HeaderConfig;
 import org.atmosphere.cpr.Meteor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * @author Gunnar Hillert
+ * @since  1.0
+ *
+ */
 public final class AtmosphereUtils {
 
 	public static final Logger LOG = LoggerFactory.getLogger(AtmosphereUtils.class);
@@ -41,13 +42,28 @@ public final class AtmosphereUtils {
 		return Meteor.build(request);
 	}
 	public static void suspend(final AtmosphereResource resource) {
+
 		final CountDownLatch countDownLatch = new CountDownLatch(1);
 		resource.addEventListener(new AtmosphereResourceEventListenerAdapter() {
 			@Override
 			public void onSuspend(AtmosphereResourceEvent event) {
 				countDownLatch.countDown();
+				LOG.info("Suspending Client..." + resource.uuid());
 				resource.removeEventListener(this);
 			}
+
+			@Override
+			public void onDisconnect(AtmosphereResourceEvent event) {
+				LOG.info("Disconnecting Client..." + resource.uuid());
+				super.onDisconnect(event);
+			}
+
+			@Override
+			public void onBroadcast(AtmosphereResourceEvent event) {
+				LOG.info("Client is broadcasting..." + resource.uuid());
+				super.onBroadcast(event);
+			}
+
 		});
 
 		AtmosphereUtils.lookupBroadcaster().addAtmosphereResource(resource);

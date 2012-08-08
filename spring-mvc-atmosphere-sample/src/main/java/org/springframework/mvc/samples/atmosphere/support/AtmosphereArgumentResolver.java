@@ -10,6 +10,11 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+/**
+ * @author Gunnar Hillert
+ * @since  1.0
+ *
+ */
 public class AtmosphereArgumentResolver implements
 		HandlerMethodArgumentResolver {
 
